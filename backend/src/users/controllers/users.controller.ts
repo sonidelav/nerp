@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+    Body, ClassSerializerInterceptor,
+    Controller,
+    Delete,
+    Get,
+    NotFoundException,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+    UseInterceptors,
+} from '@nestjs/common';
 import { LoggedUser } from '../decorators/loggeduser.decorator';
 import { UsersService } from '../services/users.service';
 import { User } from '../entities/user.entity';
@@ -8,18 +19,21 @@ import { AuthGuard } from '@nestjs/passport';
 export class UsersController {
     constructor(private userService: UsersService) {}
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get('/me')
     @UseGuards(AuthGuard())
     myAccount( @LoggedUser() me: User ) {
         return me;
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get()
     @UseGuards(AuthGuard())
     async listUsers() {
         return await this.userService.findAll();
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get('/:uuid')
     @UseGuards(AuthGuard())
     async viewUser(@Param('uuid') uuid: string) {

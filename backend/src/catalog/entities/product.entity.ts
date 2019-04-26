@@ -1,5 +1,6 @@
 import {Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, Index} from 'typeorm';
 import {Manufacturer} from './manufacturer.entity';
+import {Expose} from 'class-transformer';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -59,4 +60,11 @@ export class Product {
 
     @UpdateDateColumn()
     updatedAt: string;
+
+    // DYNAMIC PROPERTIES
+
+    @Expose()
+    get productNameWithSku(): string {
+        return `${this.name} - ${this.reference}`;
+    }
 }
