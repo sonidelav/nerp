@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { User as AuthUser } from '../decorators/user.decorator';
+import { LoggedUser } from '../decorators/loggeduser.decorator';
 import { UsersService } from '../services/users.service';
 import { User } from '../entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
@@ -10,7 +10,7 @@ export class UsersController {
 
     @Get('/me')
     @UseGuards(AuthGuard())
-    myAccount( @AuthUser() me: User ) {
+    myAccount( @LoggedUser() me: User ) {
         return me;
     }
 
