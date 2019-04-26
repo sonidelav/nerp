@@ -1,11 +1,18 @@
-import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UseGuards} from '@nestjs/common';
-import {UsersService} from '../services/users.service';
-import {User} from '../entities/user.entity';
-import {AuthGuard} from '@nestjs/passport';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { User as AuthUser } from '../decorators/user.decorator';
+import { UsersService } from '../services/users.service';
+import { User } from '../entities/user.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UsersController {
     constructor(private userService: UsersService) {}
+
+    @Get('/me')
+    @UseGuards(AuthGuard())
+    myAccount( @AuthUser() me: User ) {
+        return me;
+    }
 
     @Get()
     @UseGuards(AuthGuard())
