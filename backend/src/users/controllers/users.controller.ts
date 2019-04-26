@@ -14,6 +14,7 @@ export class UsersController {
     }
 
     @Get('/:uuid')
+    @UseGuards(AuthGuard())
     async viewUser(@Param('uuid') uuid: string) {
         const user = await this.userService.findOneById(uuid);
         if (!user) { throw new NotFoundException(); }
@@ -21,6 +22,7 @@ export class UsersController {
     }
 
     @Put('/:uuid')
+    @UseGuards(AuthGuard())
     async updateUser(@Param('uuid') uuid: string, @Body() userData: User) {
         const user = await this.userService.updateUser(uuid, userData);
         if (!user) { throw new NotFoundException(); }
@@ -28,11 +30,13 @@ export class UsersController {
     }
 
     @Post()
+    @UseGuards(AuthGuard())
     async createUser(@Body() userData: User) {
         return await this.userService.createUser(userData);
     }
 
     @Delete('/:uuid')
+    @UseGuards(AuthGuard())
     async deleteUser(@Param('uuid') uuid: string) {
         const user = await this.userService.deleteUser(uuid);
         if (!user) { throw new NotFoundException(); }
