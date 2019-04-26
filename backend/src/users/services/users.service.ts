@@ -19,7 +19,7 @@ export class UsersService {
     }
 
     async findOneByEmail(email: string): Promise<User> {
-        return await this.userRepository.findOne({ email });
+        return await this.userRepository.findOne({ email, isActive: true });
     }
 
     async updateUser(uuid: string, data: User): Promise<User> {

@@ -16,7 +16,7 @@ import { AuthController } from './controllers/auth.controller';
       JwtModule.register({
         secretOrPrivateKey: 'secretKey',
         signOptions: {
-          expiresIn: 3600,
+          noTimestamp: true,
         },
       }),
   ],

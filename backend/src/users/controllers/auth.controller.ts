@@ -1,7 +1,6 @@
 import {Body, Controller, HttpException, HttpStatus, NotFoundException, Post} from '@nestjs/common';
 import {AuthService} from '../services/auth.service';
 import {UsersService} from '../services/users.service';
-import * as moment from 'moment';
 
 @Controller('auth')
 export class AuthController {
@@ -14,11 +13,10 @@ export class AuthController {
     async generateJwtToken(@Body('email') email: string, @Body('password') password: string) {
         const user = await this.userService.findOneByEmail(email);
         if (user) {
-            if (user.password === password) {
+            if (user.password === password && user.isActive === true) {
                 const token = await this.authService.signIn(email);
                 return {
                     token,
-                    expires: moment().add(3600, 'second').unix(),
                 };
             }
             throw new HttpException('Invalid User Credentials', HttpStatus.FORBIDDEN);

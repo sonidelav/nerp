@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { UsersModule } from './users/users.module';
+import { CatalogModule } from './catalog/catalog.module';
 
 @Module({
   imports: [
@@ -15,9 +16,11 @@ import { UsersModule } from './users/users.module';
         database: 'nerp_database',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
+        entityPrefix: 'nds34f_',
       }),
       // Modules
       UsersModule,
+      CatalogModule,
   ],
 })
 export class ApplicationModule {
